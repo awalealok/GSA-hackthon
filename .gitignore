@@ -1,0 +1,21 @@
+# Node
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+
+# Env
+.env
+
+# Build
+dist/
+build/
+
+# Misc
+*.zip
+.DS_Store
