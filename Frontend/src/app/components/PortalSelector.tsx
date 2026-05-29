@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, Package, Truck, Brain, TrendingUp, ArrowRight, Users, Warehouse, BarChart3, Shield, CheckCircle2 } from 'lucide-react';
+import { Building2, Package, Truck, Brain, TrendingUp, ArrowLeft, ArrowRight, Users, Warehouse, BarChart3, Shield, CheckCircle2 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -174,7 +174,10 @@ const portals: Portal[] = [
 ];
 
 interface PortalSelectorProps {
-  onSelectPortal: (portalId: PortalType) => void;
+  onSelectPortal?: (portalId: PortalType) => void;
+  onBack?: () => void;
+  theme?: "light" | "dark";
+  onToggleTheme?: () => void;
   userRole?: PortalType | null;
 }
 
@@ -195,17 +198,33 @@ const getAccessLevelColor = (type: string) => {
   }
 };
 
-export function PortalSelector({ onSelectPortal, userRole }: PortalSelectorProps) {
+export function PortalSelector({ onSelectPortal, onBack, userRole }: PortalSelectorProps) {
+  const handleSelectPortal = (portalId: PortalType) => {
+    onSelectPortal?.(portalId);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950 p-8">
       <div className="max-w-7xl mx-auto">
+        {onBack && (
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={onBack}
+            className="mb-6 text-gray-700 dark:text-gray-300 hover:text-indigo-700 dark:hover:text-indigo-300"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Home
+          </Button>
+        )}
+
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="w-14 h-14 bg-indigo-600 rounded-xl flex items-center justify-center">
               <Brain className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-4xl">AgentStock AI</h1>
+            <h1 className="text-4xl">APIOS</h1>
           </div>
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-2">
             Multi-Agent Inventory Optimization Platform
@@ -235,7 +254,7 @@ export function PortalSelector({ onSelectPortal, userRole }: PortalSelectorProps
                     ? 'border-indigo-500 ring-2 ring-indigo-200 dark:ring-indigo-800 shadow-lg' 
                     : 'border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-700'
                 }`}
-                onClick={() => onSelectPortal(portal.id)}
+                onClick={() => handleSelectPortal(portal.id)}
               >
                 {isRecommended && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
@@ -314,7 +333,14 @@ export function PortalSelector({ onSelectPortal, userRole }: PortalSelectorProps
                     </div>
                   </div>
 
-                  <Button className="w-full" variant={isRecommended ? "default" : "outline"}>
+                  <Button
+                    className="w-full"
+                    variant={isRecommended ? "default" : "outline"}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleSelectPortal(portal.id);
+                    }}
+                  >
                     Enter Portal
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>

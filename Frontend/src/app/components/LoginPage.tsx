@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import { Building2, Lock, Mail, ArrowRight, Shield } from 'lucide-react';
+import { Building2, Lock, Mail, ArrowLeft, Shield } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { useAuth } from './AuthContext';
 
 
-export function LoginPage({ onRegisterClick }: { onRegisterClick?: () => void }) {
+export function LoginPage({
+  onRegisterClick,
+  onBack,
+}: {
+  onRegisterClick?: () => void;
+  onBack?: () => void;
+}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -68,6 +74,18 @@ export function LoginPage({ onRegisterClick }: { onRegisterClick?: () => void })
       {/* Right side - Login Form */}
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
+          {onBack && (
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={onBack}
+              className="mb-6 text-gray-700 dark:text-gray-300 hover:text-indigo-700 dark:hover:text-indigo-300"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Home
+            </Button>
+          )}
+
           <div className="text-center mb-8">
             <h2 className="text-3xl mb-2">Welcome Back</h2>
             <p className="text-gray-600 dark:text-gray-400">Sign in to your account to continue</p>

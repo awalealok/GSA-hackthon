@@ -1,0 +1,9 @@
+{
+  "python.defaultInterpreterPath": "C:\\Users\\awale\\anaconda3\\python.exe",
+  "python.pythonPath": "C:\\Users\\awale\\anaconda3\\python.exe",
+  "python.analysis.extraPaths": [
+    "C:\\Users\\awale\\anaconda3\\Lib\\site-packages"
+  ],
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.useLibraryCodeForTypes": true
+}

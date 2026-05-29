@@ -1,31 +1,29 @@
 import pandas as pd
-from sklearn.linear_model import LinearRegression
 import joblib
+from pathlib import Path
 
-# 1. Load dataset
-# Make sure dataset.csv is inside backend/ml/
-data = pd.read_csv("ML-Dataset.csv")
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_PATH = BASE_DIR / "models" / "demand_forecast_model.pkl"
 
-# 2. Basic preprocessing
-# Ensure column names match your dataset
-# Example expected columns:
-# date, sales, stock
 
-data = data.dropna()
+def predict_demand(item_mrp=120, item_visibility=0.2):
+    if not MODEL_PATH.exists():
+        raise FileNotFoundError(
+            f"Model not found at {MODEL_PATH}. Run `python Backend/ML/train.py` first."
+        )
 
-# Convert date to numerical value (simple approach)
-data["date"] = pd.to_datetime(data["date"])
-data["date_ordinal"] = data["date"].map(pd.Timestamp.toordinal)
+    model = joblib.load(MODEL_PATH)
+    sample = pd.DataFrame([
+        {
+            "Item_MRP": item_mrp,
+            "Item_Visibility": item_visibility,
+        }
+    ])
 
-# 3. Define features (X) and target (y)
-X = data[["date_ordinal"]]
-y = data["sales"]
+    prediction = model.predict(sample)
+    return float(prediction[0])
 
-# 4. Train model
-model = LinearRegression()
-model.fit(X, y)
 
-# 5. Save trained model
-joblib.dump(model, "demand_forecast_model.pkl")
+if __name__ == "__main__":
+    print("Predicted Demand:", predict_demand())
 
-print("Model trained and saved successfully")

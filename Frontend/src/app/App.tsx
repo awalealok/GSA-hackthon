@@ -60,26 +60,94 @@ function AppContent() {
     setCurrentScreen("landing");
   };
 
+  const renderPortalScreen = (onBack: () => void) => {
+    switch (currentScreen) {
+      case "super_admin":
+        return (
+          <SuperAdminPortal
+            onBack={onBack}
+            theme={theme}
+            onToggleTheme={toggleTheme}
+          />
+        );
+
+      case "store":
+        return (
+          <StorePortal
+            onBack={onBack}
+            theme={theme}
+            onToggleTheme={toggleTheme}
+          />
+        );
+
+      case "supplier":
+        return (
+          <SupplierPortal
+            onBack={onBack}
+            theme={theme}
+            onToggleTheme={toggleTheme}
+          />
+        );
+
+      case "analyst":
+        return (
+          <AnalystPortal
+            onBack={onBack}
+            theme={theme}
+            onToggleTheme={toggleTheme}
+          />
+        );
+
+      case "demo":
+        return (
+          <DemoPortal
+            onBack={onBack}
+            theme={theme}
+            onToggleTheme={toggleTheme}
+          />
+        );
+
+      default:
+        return null;
+    }
+  };
+
   // -------------------------
   // NOT AUTHENTICATED SCREENS
   // -------------------------
   if (!isAuthenticated) {
   if (currentScreen === "login") {
-    return <LoginPage onRegisterClick={goToRegister} />;
+    return (
+      <LoginPage
+        onRegisterClick={goToRegister}
+        onBack={() => setCurrentScreen("landing")}
+      />
+    );
   }
 
   if (currentScreen === "register") {
-    return <RegisterPage onBackToLogin={goToLogin} />;
+    return (
+      <RegisterPage
+        onBackToLogin={goToLogin}
+        onBack={() => setCurrentScreen("landing")}
+      />
+    );
   }
 
   if (currentScreen === "portal") {
     return (
       <PortalSelector
+        onSelectPortal={(portalId) => setCurrentScreen(portalId)}
         onBack={() => setCurrentScreen("landing")}
         theme={theme}
         onToggleTheme={toggleTheme}
       />
     );
+  }
+
+  const selectedPortal = renderPortalScreen(() => setCurrentScreen("portal"));
+  if (selectedPortal) {
+    return selectedPortal;
   }
 
   return (
@@ -90,6 +158,8 @@ function AppContent() {
     window.history.replaceState(null, "", window.location.pathname); // 👈 removes #contact
     setCurrentScreen("portal");
   }}
+  theme={theme}
+  onToggleTheme={toggleTheme}
 />
 
   );
@@ -104,52 +174,16 @@ function AppContent() {
   // -------------------------
   switch (currentScreen) {
     case "super_admin":
-      return (
-        <SuperAdminPortal
-          onBack={handleLogout}
-          theme={theme}
-          onToggleTheme={toggleTheme}
-        />
-      );
-
     case "store":
-      return (
-        <StorePortal
-          onBack={handleLogout}
-          theme={theme}
-          onToggleTheme={toggleTheme}
-        />
-      );
-
     case "supplier":
-      return (
-        <SupplierPortal
-          onBack={handleLogout}
-          theme={theme}
-          onToggleTheme={toggleTheme}
-        />
-      );
-
     case "analyst":
-      return (
-        <AnalystPortal
-          onBack={handleLogout}
-          theme={theme}
-          onToggleTheme={toggleTheme}
-        />
-      );
-
     case "demo":
-      return (
-        <DemoPortal
-          onBack={handleLogout}
-          theme={theme}
-          onToggleTheme={toggleTheme}
-        />
-      );
+      return renderPortalScreen(handleLogout);
+
     case "portal":
       return (
         <PortalSelector
+          onSelectPortal={(portalId) => setCurrentScreen(portalId)}
           onBack={handleLogout}
           theme={theme}
           onToggleTheme={toggleTheme}

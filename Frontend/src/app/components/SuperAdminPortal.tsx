@@ -118,9 +118,18 @@ export function SuperAdminPortal({ onBack, theme, onToggleTheme }: SuperAdminPor
 
 
   return (
-    <div className="p-6">
-      {/* System Status Bar */}
-      <div className="mb-6 bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
+    <div>
+      <Topbar
+        title="Admin Portel"
+        portalName="Super Admin / HQ Portal"
+        onBack={onBack}
+        theme={theme}
+        onToggleTheme={onToggleTheme}
+      />
+
+      <main className="p-6">
+        {/* System Status Bar */}
+        <div className="mb-6 bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
@@ -543,6 +552,7 @@ export function SuperAdminPortal({ onBack, theme, onToggleTheme }: SuperAdminPor
           </Card>
         </TabsContent>
       </Tabs>
+      </main>
     </div>
   );
 }

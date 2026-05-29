@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Building2, Lock, Mail, ArrowRight, Shield, User } from 'lucide-react';
+import { Building2, Lock, Mail, ArrowLeft, ArrowRight, Shield, User } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -11,7 +11,13 @@ import { registerUser } from "../../api/auth.api";
 
 type UserRole = 'super_admin' | 'store' | 'supplier' | 'analyst' | 'demo';
 
-export function RegisterPage({ onBackToLogin }: { onBackToLogin: () => void }) {
+export function RegisterPage({
+  onBackToLogin,
+  onBack,
+}: {
+  onBackToLogin: () => void;
+  onBack?: () => void;
+}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -92,6 +98,18 @@ export function RegisterPage({ onBackToLogin }: { onBackToLogin: () => void }) {
       {/* Right side - Registration Form */}
       <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
+          {onBack && (
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={onBack}
+              className="mb-6 text-gray-700 dark:text-gray-300 hover:text-indigo-700 dark:hover:text-indigo-300"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Home
+            </Button>
+          )}
+
           <div className="text-center mb-8">
             <h2 className="text-3xl mb-2">Create Account</h2>
             <p className="text-gray-600 dark:text-gray-400">Get started with your inventory optimization journey</p>

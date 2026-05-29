@@ -1,15 +1,17 @@
 import React from 'react';
 import { Button } from './ui/button';
-import { ArrowRight, CheckCircle2, BarChart3, Brain, TrendingDown, Zap, Users, Shield, Globe, ChevronDown } from 'lucide-react';
+import { ArrowRight, CheckCircle2, BarChart3, Brain, TrendingDown, Zap, Users, Shield, Globe, ChevronDown, Moon, Sun } from 'lucide-react';
 
 interface LandingPageProps {
   onLoginClick: () => void;
   onRegisterClick?: () => void;
   onPortalClick?: () => void;
+  theme?: 'light' | 'dark';
+  onToggleTheme?: () => void;
 }
 
 export function LandingPage({ onLoginClick, onRegisterClick,
-  onPortalClick }: LandingPageProps) {
+  onPortalClick, theme = 'light', onToggleTheme }: LandingPageProps) {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Navigation */}
@@ -34,6 +36,22 @@ export function LandingPage({ onLoginClick, onRegisterClick,
          
 
           <div className="flex items-center gap-3">
+            {onToggleTheme && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={onToggleTheme}
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+              >
+                {theme === 'dark' ? (
+                  <Sun className="w-5 h-5" />
+                ) : (
+                  <Moon className="w-5 h-5" />
+                )}
+              </Button>
+            )}
             <Button variant="outline" onClick={onLoginClick}>Login</Button>
             <Button onClick={onRegisterClick || onLoginClick}>
               Get Started
