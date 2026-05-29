@@ -11,16 +11,27 @@ connectDB();
 
 const app = express();
 
-// ✅ GLOBAL MIDDLEWARE FIRST
-app.use(cors());
+// CORS CONFIGURATION
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://gsa-hackthon.vercel.app",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
-// ✅ ROUTES AFTER MIDDLEWARE
+// ROUTES
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/ml", mlRoutes);
 
-// Health routes
+// HEALTH CHECK
 app.get("/", (req, res) => {
   res.json({ message: "Backend is running successfully" });
 });
